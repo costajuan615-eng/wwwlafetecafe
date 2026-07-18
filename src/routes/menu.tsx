@@ -1,15 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { menu } from "@/data/menu";
+import { menu, type MenuItem } from "@/data/menu";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
     meta: [
       { title: "Menu — La Fête Cafe" },
-      { name: "description", content: "Brunch, entrees, eggrolls, burgers, kids menu and more. See the full La Fête Cafe menu with prices." },
+      {
+        name: "description",
+        content:
+          "Caribbean-Southern brunch, Korean-inspired tacos, eggrolls, burgers and more. See the full La Fête Cafe menu with prices.",
+      },
       { property: "og:title", content: "La Fête Cafe — Menu" },
-      { property: "og:description", content: "The full La Fête Cafe menu — brunch, entrees, apps, sides and desserts." },
+      {
+        property: "og:description",
+        content:
+          "The full La Fête Cafe menu — brunch, entrees, apps, tacos, burgers, sides and desserts.",
+      },
       { property: "og:url", content: "/menu" },
     ],
     links: [{ rel: "canonical", href: "/menu" }],
@@ -17,76 +25,185 @@ export const Route = createFileRoute("/menu")({
   component: MenuPage,
 });
 
-function Badge({ kind }: { kind: "Popular" | "#1 most liked" }) {
-  const isTop = kind === "#1 most liked";
-  return (
-    <span
-      className={
-        "ml-2 inline-block rounded-full px-2 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wider " +
-        (isTop
-          ? "bg-primary text-primary-foreground"
-          : "bg-highlight/30 text-foreground")
-      }
-    >
-      {kind}
-    </span>
-  );
-}
+const signatures = [
+  {
+    name: "Chicken & Waffles",
+    price: "$18.40",
+    blurb: "Fluffy buttermilk waffle, crispy buttermilk chicken, choice of butter.",
+    tag: "Guest favorite",
+  },
+  {
+    name: "Shrimp & Grits, La Fête Style",
+    price: "$20.70",
+    blurb: "Savory grits, jumbo shrimp, tomatoes, peppers, andouille, cajun sauce.",
+    tag: "House classic",
+  },
+  {
+    name: "Korean Pork Sandwich",
+    price: "$14.95",
+    blurb: "Korean BBQ pork, asian slaw, grilled pineapple, seasoned fries.",
+    tag: "New",
+  },
+];
 
 function MenuPage() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <div className="mx-auto max-w-4xl px-5 py-16 md:py-24">
-        <header className="mb-14 text-center">
-          <div className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">The menu</div>
-          <h1 className="mt-3 text-5xl md:text-6xl">Made from scratch. Made to share.</h1>
-          <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-            Prices reflect current delivery menu. Ask your server about seasonal specials in the dining room.
-          </p>
-        </header>
 
-        <nav className="sticky top-16 z-30 -mx-5 mb-12 border-y border-border bg-background/90 px-5 py-3 backdrop-blur">
-          <ul className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+      {/* Hero */}
+      <section className="border-b border-border bg-secondary/40">
+        <div className="mx-auto max-w-5xl px-5 py-20 md:py-28 text-center">
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+            The menu
+          </div>
+          <h1 className="mt-4 text-5xl leading-[1.05] md:text-7xl">
+            Caribbean soul.
+            <br />
+            <span className="italic text-primary">Southern hospitality.</span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
+            Everything made from scratch on N. Zaragoza — from buttermilk waffles at
+            sunrise to Korean BBQ tacos after dark.
+          </p>
+        </div>
+      </section>
+
+      {/* Signature strip */}
+      <section className="border-b border-border bg-background">
+        <div className="mx-auto max-w-6xl px-5 py-14">
+          <div className="mb-8 flex items-baseline justify-between">
+            <h2 className="text-3xl md:text-4xl">Signatures</h2>
+            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+              Most ordered
+            </span>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {signatures.map((s) => (
+              <article
+                key={s.name}
+                className="group relative overflow-hidden rounded-lg border border-border bg-card p-6 transition-colors hover:border-primary"
+              >
+                <div className="mb-4 inline-block rounded-full bg-highlight/30 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider">
+                  {s.tag}
+                </div>
+                <h3 className="text-2xl leading-tight">{s.name}</h3>
+                <p className="mt-3 text-sm text-muted-foreground">{s.blurb}</p>
+                <div className="mt-6 flex items-end justify-between">
+                  <span className="font-display text-2xl text-primary tabular-nums">
+                    {s.price}
+                  </span>
+                  <span className="text-xs uppercase tracking-wider text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">
+                    On the menu ↓
+                  </span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Category pill nav */}
+      <nav
+        aria-label="Menu categories"
+        className="sticky top-16 z-30 border-b border-border bg-background/95 backdrop-blur"
+      >
+        <div className="mx-auto max-w-6xl overflow-x-auto px-5 py-3">
+          <ul className="flex gap-2 whitespace-nowrap">
             {menu.map((cat) => (
               <li key={cat.name}>
-                <a href={`#${slug(cat.name)}`} className="hover:text-foreground">
+                <a
+                  href={`#${slug(cat.name)}`}
+                  className="inline-block rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                >
                   {cat.name}
                 </a>
               </li>
             ))}
           </ul>
-        </nav>
+        </div>
+      </nav>
 
-        <div className="space-y-16">
+      {/* Categories */}
+      <div className="mx-auto max-w-5xl px-5 py-16 md:py-20">
+        <div className="space-y-20">
           {menu.map((cat) => (
             <section key={cat.name} id={slug(cat.name)} className="scroll-mt-32">
-              <h2 className="mb-6 border-b border-border pb-3 text-3xl md:text-4xl">{cat.name}</h2>
-              <ul className="divide-y divide-border">
+              <header className="mb-8 flex items-end justify-between gap-4 border-b border-border pb-4">
+                <div>
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-primary">
+                    {String(cat.items.length).padStart(2, "0")} items
+                  </div>
+                  <h2 className="mt-1 text-4xl md:text-5xl">{cat.name}</h2>
+                </div>
+                <a
+                  href="#top"
+                  className="hidden text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground md:inline"
+                >
+                  ↑ Top
+                </a>
+              </header>
+
+              <ul className="grid gap-x-10 gap-y-6 md:grid-cols-2">
                 {cat.items.map((item) => (
-                  <li key={item.name} className="grid grid-cols-[1fr_auto] gap-4 py-4">
-                    <div>
-                      <div className="text-lg font-medium leading-snug">
-                        {item.name}
-                        {item.badge && <Badge kind={item.badge} />}
-                      </div>
-                      {item.description && (
-                        <p className="mt-1 max-w-xl text-sm text-muted-foreground">{item.description}</p>
-                      )}
-                    </div>
-                    <div className="pt-1 font-display text-lg text-primary tabular-nums">{item.price}</div>
-                  </li>
+                  <MenuRow key={item.name} item={item} />
                 ))}
               </ul>
             </section>
           ))}
         </div>
+
+        <p className="mx-auto mt-20 max-w-md text-center text-xs uppercase tracking-widest text-muted-foreground">
+          Prices reflect current delivery menu.
+          <br />
+          Ask your server about seasonal specials in the dining room.
+        </p>
       </div>
+
       <SiteFooter />
     </div>
   );
 }
 
+function MenuRow({ item }: { item: MenuItem }) {
+  return (
+    <li className="group">
+      <div className="flex items-baseline gap-3">
+        <h3 className="text-lg font-medium leading-snug">{item.name}</h3>
+        <span
+          aria-hidden
+          className="mb-1 flex-1 border-b border-dotted border-border/70"
+        />
+        <span className="font-display text-lg text-primary tabular-nums">
+          {item.price}
+        </span>
+      </div>
+      {item.badge && (
+        <div className="mt-1.5">
+          <span
+            className={
+              "inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider " +
+              (item.badge === "#1 most liked"
+                ? "bg-primary text-primary-foreground"
+                : "bg-highlight/30 text-foreground")
+            }
+          >
+            {item.badge}
+          </span>
+        </div>
+      )}
+      {item.description && (
+        <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted-foreground">
+          {item.description}
+        </p>
+      )}
+    </li>
+  );
+}
+
 function slug(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
