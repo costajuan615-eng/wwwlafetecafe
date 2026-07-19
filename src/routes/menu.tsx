@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { menu, type MenuItem } from "@/data/menu";
+import { menu, getDishImage, type MenuItem } from "@/data/menu";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -166,37 +166,55 @@ function MenuPage() {
 }
 
 function MenuRow({ item }: { item: MenuItem }) {
+  const img = getDishImage(item.image);
   return (
-    <li className="group">
-      <div className="flex items-baseline gap-3">
-        <h3 className="text-lg font-medium leading-snug">{item.name}</h3>
-        <span
-          aria-hidden
-          className="mb-1 flex-1 border-b border-dotted border-border/70"
+    <li className="group flex gap-4">
+      {img ? (
+        <img
+          src={img}
+          alt={item.name}
+          loading="lazy"
+          width={768}
+          height={768}
+          className="h-20 w-20 flex-shrink-0 rounded-md object-cover ring-1 ring-border transition-transform duration-300 group-hover:scale-[1.03] md:h-24 md:w-24"
         />
-        <span className="font-display text-lg text-primary tabular-nums">
-          {item.price}
-        </span>
-      </div>
-      {item.badge && (
-        <div className="mt-1.5">
+      ) : (
+        <div
+          aria-hidden
+          className="h-20 w-20 flex-shrink-0 rounded-md bg-secondary md:h-24 md:w-24"
+        />
+      )}
+      <div className="min-w-0 flex-1">
+        <div className="flex items-baseline gap-3">
+          <h3 className="text-lg font-medium leading-snug">{item.name}</h3>
           <span
-            className={
-              "inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider " +
-              (item.badge === "#1 most liked"
-                ? "bg-primary text-primary-foreground"
-                : "bg-highlight/30 text-foreground")
-            }
-          >
-            {item.badge}
+            aria-hidden
+            className="mb-1 flex-1 border-b border-dotted border-border/70"
+          />
+          <span className="font-display text-lg text-primary tabular-nums">
+            {item.price}
           </span>
         </div>
-      )}
-      {item.description && (
-        <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted-foreground">
-          {item.description}
-        </p>
-      )}
+        {item.badge && (
+          <div className="mt-1.5">
+            <span
+              className={
+                "inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider " +
+                (item.badge === "#1 most liked"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-highlight/30 text-foreground")
+              }
+            >
+              {item.badge}
+            </span>
+          </div>
+        )}
+        {item.description && (
+          <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted-foreground">
+            {item.description}
+          </p>
+        )}
+      </div>
     </li>
   );
 }
