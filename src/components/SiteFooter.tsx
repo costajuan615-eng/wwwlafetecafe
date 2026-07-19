@@ -15,7 +15,11 @@ export function SiteFooter() {
           <div className="mb-2 font-medium uppercase tracking-wider text-background/60">Visit</div>
           <p className="text-background/85">{info.address}</p>
           <p className="mt-1 text-background/85">{info.hours}</p>
+          <a href={`tel:${info.phone.replace(/\D/g, "")}`} className="mt-1 block text-background/85 hover:text-highlight">
+            {info.phone}
+          </a>
         </div>
+
         <div className="text-sm">
           <div className="mb-2 font-medium uppercase tracking-wider text-background/60">Explore</div>
           <div className="flex flex-col gap-1">

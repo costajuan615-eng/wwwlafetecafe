@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { info } from "@/data/menu";
 
 const links = [
+
   { to: "/", label: "Home" },
   { to: "/menu", label: "Menu" },
   { to: "/about", label: "About" },
@@ -16,7 +18,7 @@ export function SiteHeader() {
         <Link to="/" className="font-display text-2xl tracking-tight text-foreground">
           La Fête <span className="text-primary">Cafe</span>
         </Link>
-        <nav className="hidden gap-8 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <Link
               key={l.to}
@@ -28,7 +30,14 @@ export function SiteHeader() {
               {l.label}
             </Link>
           ))}
+          <a
+            href={`tel:${info.phone.replace(/\D/g, "")}`}
+            className="rounded bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+          >
+            Call {info.phone}
+          </a>
         </nav>
+
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -52,8 +61,15 @@ export function SiteHeader() {
               {l.label}
             </Link>
           ))}
+          <a
+            href={`tel:${info.phone.replace(/\D/g, "")}`}
+            className="py-2 text-sm font-semibold text-primary"
+          >
+            Call {info.phone}
+          </a>
         </nav>
       )}
+
     </header>
   );
 }

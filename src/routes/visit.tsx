@@ -41,6 +41,15 @@ function VisitPage() {
               <dd className="mt-1">{info.hours}</dd>
             </div>
             <div>
+              <dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Phone</dt>
+              <dd className="mt-1">
+                <a href={`tel:${info.phone.replace(/\D/g, "")}`} className="text-primary hover:underline">
+                  {info.phone}
+                </a>
+              </dd>
+            </div>
+
+            <div>
               <dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Delivery</dt>
               <dd className="mt-1 text-muted-foreground">
                 Delivery is temporarily unavailable through our platform partners. Dine in or grab it to go — we'll have it hot.
@@ -50,10 +59,16 @@ function VisitPage() {
 
           <div className="mt-10 flex flex-wrap gap-3">
             <a
+              href={`tel:${info.phone.replace(/\D/g, "")}`}
+              className="rounded bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
+            >
+              Call {info.phone}
+            </a>
+            <a
               href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(info.address)}`}
               target="_blank"
               rel="noreferrer"
-              className="rounded bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
+              className="rounded border border-foreground/20 px-6 py-3 text-sm font-semibold text-foreground hover:bg-foreground hover:text-background"
             >
               Get directions
             </a>
@@ -66,6 +81,7 @@ function VisitPage() {
               View on Uber Eats
             </a>
           </div>
+
         </div>
 
         <div className="overflow-hidden rounded border border-border">

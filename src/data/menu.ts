@@ -168,7 +168,9 @@ export const info = {
   tagline: "Caribbean-Southern brunch & soul in El Paso.",
   address: "1320 N Zaragoza Rd, El Paso, TX 79936",
   hours: "Mon 7:00 AM – 9:00 PM",
+  phone: "(915) 260-9114",
   rating: 4.6,
   ratingCount: "260+",
   uberEats: "https://www.ubereats.com/",
 };
+
