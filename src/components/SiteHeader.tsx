@@ -2,8 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { info } from "@/data/menu";
 
-
 const links = [
+
   { to: "/", label: "Home" },
   { to: "/menu", label: "Menu" },
   { to: "/about", label: "About" },
@@ -61,8 +61,15 @@ export function SiteHeader() {
               {l.label}
             </Link>
           ))}
+          <a
+            href={`tel:${info.phone.replace(/\D/g, "")}`}
+            className="py-2 text-sm font-semibold text-primary"
+          >
+            Call {info.phone}
+          </a>
         </nav>
       )}
+
     </header>
   );
 }
