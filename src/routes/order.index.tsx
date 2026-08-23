@@ -103,10 +103,7 @@ function OrderPage() {
 
       <section className="border-b border-border bg-secondary/40">
         <div className="mx-auto max-w-5xl px-5 py-14 text-center">
-          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
-            Pickup only — no delivery
-          </div>
-          <h1 className="mt-3 text-4xl md:text-6xl">Order ahead</h1>
+          <h1 className="text-4xl md:text-6xl">Order ahead</h1>
           <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
             Pay when you pick up at {info.address}. Most orders are ready in about {LEAD_MINUTES}{" "}
             minutes.
