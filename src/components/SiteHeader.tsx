@@ -37,16 +37,20 @@ export function SiteHeader() {
           >
             Call {info.phone}
           </a>
+          <CartButton />
         </nav>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-          className="md:hidden rounded border border-border px-3 py-1.5 text-sm"
-        >
-          Menu
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <CartButton />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle menu"
+            className="rounded border border-border px-3 py-1.5 text-sm"
+          >
+            Menu
+          </button>
+        </div>
       </div>
       {open && (
         <nav className="flex flex-col gap-1 border-t border-border bg-background px-5 py-3 md:hidden">
