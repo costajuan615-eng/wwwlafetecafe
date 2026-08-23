@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { menu, getDishImage, type MenuItem } from "@/data/menu";
+import { useCart } from "@/lib/cart";
+import { itemId } from "@/lib/catalog";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -146,7 +149,7 @@ function MenuPage() {
 
               <ul className="grid gap-x-10 gap-y-6 md:grid-cols-2">
                 {cat.items.map((item) => (
-                  <MenuRow key={item.name} item={item} />
+                  <MenuRow key={item.name} item={item} category={cat.name} />
                 ))}
               </ul>
             </section>
@@ -165,8 +168,19 @@ function MenuPage() {
   );
 }
 
-function MenuRow({ item }: { item: MenuItem }) {
+function MenuRow({ item, category }: { item: MenuItem; category: string }) {
   const img = getDishImage(item.image);
+  const { add, setOpen } = useCart();
+  const id = itemId(category, item.name);
+  const [added, setAdded] = useState(false);
+
+  function handleAdd() {
+    add(id, 1);
+    setAdded(true);
+    setOpen(true);
+    setTimeout(() => setAdded(false), 1200);
+  }
+
   return (
     <li className="group flex gap-4">
       {img ? (
@@ -214,6 +228,13 @@ function MenuRow({ item }: { item: MenuItem }) {
             {item.description}
           </p>
         )}
+        <button
+          type="button"
+          onClick={handleAdd}
+          className="mt-2 rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
+        >
+          {added ? "Added ✓" : "Add to order"}
+        </button>
       </div>
     </li>
   );
