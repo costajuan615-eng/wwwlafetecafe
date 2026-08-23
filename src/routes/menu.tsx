@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { menu, getDishImage, type MenuItem } from "@/data/menu";
+import { useCart } from "@/lib/cart";
+import { itemId } from "@/lib/catalog";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
