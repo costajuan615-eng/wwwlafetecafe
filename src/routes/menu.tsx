@@ -149,7 +149,7 @@ function MenuPage() {
 
               <ul className="grid gap-x-10 gap-y-6 md:grid-cols-2">
                 {cat.items.map((item) => (
-                  <MenuRow key={item.name} item={item} />
+                  <MenuRow key={item.name} item={item} category={cat.name} />
                 ))}
               </ul>
             </section>
