@@ -16,7 +16,7 @@ import {
   upcomingDays,
 } from "@/lib/pickup";
 
-export const Route = createFileRoute("/order")({
+export const Route = createFileRoute("/order/")({
   head: () => ({
     meta: [
       { title: "Order Pickup — La Fête Cafe" },

@@ -14,6 +14,7 @@ import { Route as OrderRouteImport } from './routes/order'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OrderConfirmedRouteImport } from './routes/order.confirmed'
 
 const VisitRoute = VisitRouteImport.update({
   id: '/visit',
@@ -40,42 +41,57 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrderConfirmedRoute = OrderConfirmedRouteImport.update({
+  id: '/confirmed',
+  path: '/confirmed',
+  getParentRoute: () => OrderRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/menu': typeof MenuRoute
-  '/order': typeof OrderRoute
+  '/order': typeof OrderRouteWithChildren
   '/visit': typeof VisitRoute
+  '/order/confirmed': typeof OrderConfirmedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/menu': typeof MenuRoute
-  '/order': typeof OrderRoute
+  '/order': typeof OrderRouteWithChildren
   '/visit': typeof VisitRoute
+  '/order/confirmed': typeof OrderConfirmedRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/menu': typeof MenuRoute
-  '/order': typeof OrderRoute
+  '/order': typeof OrderRouteWithChildren
   '/visit': typeof VisitRoute
+  '/order/confirmed': typeof OrderConfirmedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/menu' | '/order' | '/visit'
+  fullPaths: '/' | '/about' | '/menu' | '/order' | '/visit' | '/order/confirmed'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/menu' | '/order' | '/visit'
-  id: '__root__' | '/' | '/about' | '/menu' | '/order' | '/visit'
+  to: '/' | '/about' | '/menu' | '/order' | '/visit' | '/order/confirmed'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/menu'
+    | '/order'
+    | '/visit'
+    | '/order/confirmed'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   MenuRoute: typeof MenuRoute
-  OrderRoute: typeof OrderRoute
+  OrderRoute: typeof OrderRouteWithChildren
   VisitRoute: typeof VisitRoute
 }
 
@@ -116,14 +132,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/order/confirmed': {
+      id: '/order/confirmed'
+      path: '/confirmed'
+      fullPath: '/order/confirmed'
+      preLoaderRoute: typeof OrderConfirmedRouteImport
+      parentRoute: typeof OrderRoute
+    }
   }
 }
+
+interface OrderRouteChildren {
+  OrderConfirmedRoute: typeof OrderConfirmedRoute
+}
+
+const OrderRouteChildren: OrderRouteChildren = {
+  OrderConfirmedRoute: OrderConfirmedRoute,
+}
+
+const OrderRouteWithChildren = OrderRoute._addFileChildren(OrderRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   MenuRoute: MenuRoute,
-  OrderRoute: OrderRoute,
+  OrderRoute: OrderRouteWithChildren,
   VisitRoute: VisitRoute,
 }
 export const routeTree = rootRouteImport
