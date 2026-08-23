@@ -120,7 +120,7 @@ function OrderPage() {
             <legend className="mb-3 text-2xl">Pickup time</legend>
             <div className="flex gap-2">
               <TypeButton active={pickupType === "asap"} onClick={() => setPickupType("asap")}>
-                ASAP (~{LEAD_MINUTES} min)
+                Pickup today
               </TypeButton>
               <TypeButton
                 active={pickupType === "scheduled"}
