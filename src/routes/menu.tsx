@@ -165,8 +165,19 @@ function MenuPage() {
   );
 }
 
-function MenuRow({ item }: { item: MenuItem }) {
+function MenuRow({ item, category }: { item: MenuItem; category: string }) {
   const img = getDishImage(item.image);
+  const { add, setOpen } = useCart();
+  const id = itemId(category, item.name);
+  const [added, setAdded] = useState(false);
+
+  function handleAdd() {
+    add(id, 1);
+    setAdded(true);
+    setOpen(true);
+    setTimeout(() => setAdded(false), 1200);
+  }
+
   return (
     <li className="group flex gap-4">
       {img ? (
@@ -214,6 +225,13 @@ function MenuRow({ item }: { item: MenuItem }) {
             {item.description}
           </p>
         )}
+        <button
+          type="button"
+          onClick={handleAdd}
+          className="mt-2 rounded-full border border-border px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
+        >
+          {added ? "Added ✓" : "Add to order"}
+        </button>
       </div>
     </li>
   );
